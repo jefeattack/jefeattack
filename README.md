@@ -13,6 +13,9 @@ reg query "HKCU\Software\Microsoft\Windows\Currentversion\Run"
 
 shell reg add "HKCU\Software\Microsoft\Windows\Currentversion\Run" /V "Name" /t REG_SZ /F /D "C:\Path\to\file"
 
+shell reg delete "HKCU\software\microsoft\windows\currentverison\run" /V "Name" /F
+
+shell sc description "Name" "Description"
 
 shell dsquery * -filter "(&(objectclass= user)(Admincount=1))" -attr samaccountname name AdminCount limit 0
 
@@ -22,11 +25,11 @@ shell dsquery * -filter "(&(objectclass= computer)(operatingsystem= *in*))" -att
 
 shell dsquery * -filter "(name= *PII*)" -attr samaccountname name limit 0
 
-shell dsquery * -filter "(name= *PII*)" -attr * limit 5
+shell dsquery * -filter "(name= *group*)" -attr * limit 5
 
-shell dsquery * -filter "(name= SupervisorsManagersLeadership)" -attr * -limit 5
+shell dsquery * -filter "(name= subgroupname)" -attr * -limit 5
 
-shell dsquery * -filter "(name= *workman*)" -attr * -limit 5
+shell dsquery * -filter "(name= *personman*)" -attr * -limit 5
 
 sc query NewServ
 sc delete NewServ
