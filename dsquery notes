@@ -18,7 +18,7 @@ shell dsquery * -filter "(&(ObjectClass=user)(adminCount=1))" -d chicago.gretche
 #find other domains with Get-ADForest cmdlet
 powerpick [System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest().Domains | ForEach-Object { $_.Name }
 
-shell dsquery * -filter "(&(objectclass= computer)(operatingsystem= in))" -attr name samaccountname operatingsystem -limit 10
+shell dsquery * -filter "(&(objectclass= computer)(operatingsystem= *in*))" -attr name samaccountname operatingsystem -limit 10
 
 #All Descriptors
 shell dsquery * -filter "(name= *)" -attr samaccountname name limit 0
