@@ -27,13 +27,22 @@ shell dsquery * -filter "(name= *)" -attr samaccountname name limit 0
 #find groups
 shell dsquery group -name *
 
-shell nltest /domain_trusts
+
 
 #find names, usernames, descriptions
 shell dsquery * -filter "(objectclass=user)" -attr name samaccountname description distinguishedname
 shell dsquery * -filter "(objectclass=group)" -attr name samaccountname description
 shell dsquery * -filter "(objectclass=group)" -attr name samaccountname description memberof
 shell dsquery * -filter "(objectclass=organizationalunit)" -attr name description
+shell dsquery * -filter "(objectclass=computer)" -attr name
+
+#Find trusts
+shell nltest /domain_trusts
+#Find trusts with trust level (1=they trust you, 2=you trust them, 3=trust in both directions)
+shell dsquery * -filter "(objectclass=trusteddomain)" -attr flatname trustdirection
+
+#Enumerating another domain
+shell dsquery * -filter "(objectclass=user)" -attr * -limit 2 -d chicago.gretchel.local
 
 shell dsquery * -filter "(name= group)" -attr * limit 5
 
