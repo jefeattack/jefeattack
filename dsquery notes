@@ -18,6 +18,7 @@ shell dsquery * -filter "(&(ObjectClass=user)(adminCount=1))" -d chicago.gretche
 #find other domains with Get-ADForest cmdlet
 powerpick [System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest().Domains | ForEach-Object { $_.Name }
 
+#find operating systems of computers in domain
 shell dsquery * -filter "(&(objectclass= computer)(operatingsystem= *in*))" -attr name samaccountname operatingsystem -limit 10
 
 #All Descriptors
@@ -25,6 +26,14 @@ shell dsquery * -filter "(name= *)" -attr samaccountname name limit 0
 
 #find groups
 shell dsquery group -name *
+
+shell nltest /domain_trusts
+
+#find names, usernames, descriptions
+shell dsquery * -filter "(objectclass=user)" -attr name samaccountname description distinguishedname
+shell dsquery * -filter "(objectclass=group)" -attr name samaccountname description
+shell dsquery * -filter "(objectclass=group)" -attr name samaccountname description memberof
+shell dsquery * -filter "(objectclass=organizationalunit)" -attr name description
 
 shell dsquery * -filter "(name= group)" -attr * limit 5
 
