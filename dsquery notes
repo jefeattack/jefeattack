@@ -1,7 +1,7 @@
 
 upnpcont rdpclip logagent
 
-reg query "HKCU\Software\Microsoft\Windows\Currentversion\Run"
+shell reg query "HKCU\Software\Microsoft\Windows\Currentversion\Run"
 
 shell reg add "HKCU\Software\Microsoft\Windows\Currentversion\Run" /V "Name" /t REG_SZ /F /D "C:\Path\to\file"
 
@@ -40,6 +40,7 @@ shell dsquery * -filter "(objectclass=computer)" -attr name
 shell nltest /domain_trusts
 #Find trusts with trust level (1=they trust you, 2=you trust them, 3=trust in both directions)
 shell dsquery * -filter "(objectclass=trusteddomain)" -attr flatname trustdirection
+shell dsquery * -server -forest
 
 #Enumerating another domain
 shell dsquery * -filter "(objectclass=user)" -attr * -limit 2 -d chicago.gretchel.local
